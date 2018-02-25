@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Redirect} from 'react-router-dom';
 import {connect} from 'react-redux';
 import TwitterLogin from 'react-twitter-auth';
-import {getUser, loginError} from '../../../actions/LoginPage';
+import {loginError, loginSuccess} from '../../../actions/LoginPage';
 
 class Login extends Component {
     constructor(props) {
@@ -13,7 +13,10 @@ class Login extends Component {
 
     onSuccess(response) {
         const token = response.headers.get('x-auth-token');
-        this.props.onLoginSuccess(token, response);
+        response.json().then(user => {
+            this.props.onLoginSuccess(token, user);
+        })
+
     };
 
     onFailed(error) {
@@ -43,7 +46,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onLoginSuccess: (token, user) => dispatch(getUser(token, user)),
+        onLoginSuccess: (token, user) => dispatch(loginSuccess(token, user)),
         onLoginError: (err) => dispatch(loginError(err.message))
     };
 };

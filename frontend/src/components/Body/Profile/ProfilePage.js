@@ -1,6 +1,5 @@
 import React from 'react';
 import {Redirect} from 'react-router-dom';
-import {getUserTweets} from "../../../actions/Profile";
 import {connect} from "react-redux";
 import {ListGroup, ListGroupItem} from 'react-bootstrap';
 
@@ -57,7 +56,7 @@ class ProfilePage extends React.Component {
                         <span>{this.props.user.displayName}</span>
                         <br />
                         <label>Photo:</label>
-                        <img src={this.props.user.photo} alt="Profile Picture" />
+                        <img src={this.props.user.photo} alt="Profile" />
                     </div>
                 </section>
                 <br/>
@@ -84,7 +83,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        getTweets: (data) => dispatch(getUserTweets(data))
+        getTweets: (data) => dispatch({type: 'GET_USER_TWEET', data})
+        // getTweets: (data) => dispatch(getUserTweets(data))
     }
 };
 
